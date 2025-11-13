@@ -32,19 +32,19 @@
 
 /obj/item/magic/melded/t3
 	name = "sorcerous weave"
-	icon_state = "wessence"
+	icon_state = "weave"
 	desc = "A melding of infernal core, heartwood core and elemental fragment."
 	sellprice = 40
 
 /obj/item/magic/melded/t4
 	name = "magical confluence"
-	icon_state = "wessence"
+	icon_state = "confluence"
 	desc = "A melding of abyssal flame, sylvan essence and elemental relic."
 	sellprice = 60
 
 /obj/item/magic/melded/t5
 	name = "arcanic aberation"
-	icon_state = "wessence"
+	icon_state = "abberant"
 	desc = "A melding of arcane fusion and voidstone. It pulses erratically, power coiled tightly within and dangerous. Many would be afraid of going near this, let alone holding it."
 	sellprice = 100
 
@@ -170,7 +170,7 @@
     tier = 4
 
 //ELEMENTAL
-/obj/item/magic/elemental/
+/obj/item/magic/elemental
     resistance_flags = FIRE_PROOF
     w_class = WEIGHT_CLASS_SMALL
 
