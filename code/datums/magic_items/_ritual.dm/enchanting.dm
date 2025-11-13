@@ -62,6 +62,8 @@
 	required_atoms = list(/obj/item/rogueore/cinnabar = 1,/obj/item/paper/scroll = 1,/obj/item/magic/fae/scale = 1, /obj/item/magic/manacrystal = 1, /obj/item/magic/melded/t1 = 1)
 	result_atoms = list(/obj/item/enchantmentscroll/nightvision)
 
+/datum/runeritual/enchanting/unbreaking
+	name = "Unbreaking"
 	desc = "Provides extra integrity!"
 	blacklisted = FALSE
 	tier = 2
