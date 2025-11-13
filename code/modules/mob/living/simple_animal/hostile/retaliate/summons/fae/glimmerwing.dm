@@ -17,8 +17,8 @@
 	butcher_results = list()
 	faction = list("fae")
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
-	health = 170
-	maxHealth = 170
+	health = 270
+	maxHealth = 270
 	melee_damage_lower = 15
 	melee_damage_upper = 17
 	vision_range = 7
@@ -45,9 +45,11 @@
 	aggressive = 1
 	var/drug_cd
 	inherent_spells = list(/obj/effect/proc_holder/spell/invoked/lesser_heal/free)
+	movement_type = FLYING
 
 /mob/living/simple_animal/hostile/retaliate/rogue/fae/glimmerwing/Initialize()
 	. = ..()
+	src.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/fae/glimmerwing/death(gibbed)
 	..()

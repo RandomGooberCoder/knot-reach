@@ -9,7 +9,7 @@
 	emote_hear = null
 	emote_see = null
 	speak_chance = 1
-	turns_per_move = 3
+	turns_per_move = 6
 	see_in_dark = 6
 	move_to_delay = 3
 	base_intents = list(/datum/intent/simple/bite)
@@ -48,6 +48,10 @@
 	var/shroom_cd = 0
 	var/summon_cd = 0
 	inherent_spells = list(/obj/effect/proc_holder/spell/invoked/create_shrooms)
+
+/mob/living/simple_animal/hostile/retaliate/rogue/fae/sylph/Initialize()
+	. = ..()
+	adjust_skillrank(/datum/skill/combat/unarmed, 5, TRUE)
 
 /obj/projectile/magic/frostbolt/greater
 	name = "greater frostbolt"
@@ -95,11 +99,15 @@
 	..()
 	var/turf/deathspot = get_turf(src)
 	new /obj/item/magic/fae/essence(deathspot)
+	new /obj/item/magic/fae/scale(deathspot)
+	new /obj/item/magic/fae/scale(deathspot)
+	new /obj/item/magic/fae/core(deathspot)
+	new /obj/item/magic/fae/core(deathspot)
+	new /obj/item/magic/fae/dust(deathspot)
+	new /obj/item/magic/fae/dust(deathspot)
 	new /obj/item/magic/fae/dust(deathspot)
 	new /obj/item/magic/fae/dust(deathspot)
 	new /obj/item/magic/melded/t2(deathspot)
-	new /obj/item/magic/fae/scale(deathspot)
-	new /obj/item/magic/fae/core(deathspot)
 	update_icon()
 	spill_embedded_objects()
 	qdel(src)

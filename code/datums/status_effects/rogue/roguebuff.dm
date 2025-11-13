@@ -1351,3 +1351,137 @@
 	name = "Boon of the Parish"
 	desc = "You lent partial aid to the local church and bear a modest share of its blessing."
 	icon_state = "buff"
+
+/datum/status_effect/buff/magicknowledge
+	id = "intelligence"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/knowledge
+	effectedstats = list("intelligence" = 2)
+	duration = 10 MINUTES
+
+/atom/movable/screen/alert/status_effect/buff/knowledge
+	name = "runic cunning"
+	desc = "I am magically astute."
+	icon_state = "buff"
+
+/datum/status_effect/buff/magicstrength
+	id = "strength"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/strength
+	effectedstats = list("strength" = 3)
+	duration = 20 MINUTES
+
+/atom/movable/screen/alert/status_effect/buff/strength
+	name = "arcane reinforced strength"
+	desc = "I am magically strengthened."
+	icon_state = "buff"
+
+/datum/status_effect/buff/magicstrength/lesser
+	id = "lesser strength"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/strength/lesser
+	effectedstats = list("strength" = 1)
+	duration = 20 MINUTES
+
+/atom/movable/screen/alert/status_effect/buff/strength/lesser
+	name = "lesser arcane strength"
+	desc = "I am magically strengthened."
+	icon_state = "buff"
+
+
+/datum/status_effect/buff/magicspeed
+	id = "speed"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/speed
+	effectedstats = list("speed" = 3)
+	duration = 20 MINUTES
+
+/atom/movable/screen/alert/status_effect/buff/speed
+	name = "arcane swiftness"
+	desc = "I am magically swift."
+	icon_state = "buff"
+
+/datum/status_effect/buff/magicspeed/lesser
+	id = "lesser speed"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/speed/lesser
+	effectedstats = list("speed" = 1)
+	duration = 20 MINUTES
+
+/atom/movable/screen/alert/status_effect/buff/speed/lesser
+	name = "arcane swiftness"
+	desc = "I am magically swift."
+	icon_state = "buff"
+
+/datum/status_effect/buff/magicwillpower
+	id = "willpower"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/willpower
+	effectedstats = list("willpower" = 3)
+	duration = 20 MINUTES
+
+/atom/movable/screen/alert/status_effect/buff/willpower
+	name = "arcane willpower"
+	desc = "I am magically resilient."
+	icon_state = "buff"
+
+/datum/status_effect/buff/magicwillpower/lesser
+	id = "lesser willpower"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/willpower/lesser
+	effectedstats = list("willpower" = 1)
+	duration = 20 MINUTES
+
+/atom/movable/screen/alert/status_effect/buff/willpower/lesser
+	name = "lesser arcane willpower"
+	desc = "I am magically resilient."
+	icon_state = "buff"
+
+
+/datum/status_effect/buff/magicconstitution
+	id = "constitution"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/constitution
+	effectedstats = list("constitution" = 3)
+	duration = 20 MINUTES
+
+/atom/movable/screen/alert/status_effect/buff/constitution
+	name = "arcane constitution"
+	desc = "I feel reinforced by magick."
+	icon_state = "buff"
+
+/datum/status_effect/buff/magicconstitution/lesser
+	id = "lesser constitution"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/constitution/lesser
+	effectedstats = list("constitution" = 1)
+	duration = 20 MINUTES
+
+/atom/movable/screen/alert/status_effect/buff/constitution/lesser
+	name = "lesser arcane constitution"
+	desc = "I feel reinforced by magick."
+	icon_state = "buff"
+
+/datum/status_effect/buff/magicperception
+	id = "perception"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/perception
+	effectedstats = list("perception" = 3)
+	duration = 20 MINUTES
+
+/atom/movable/screen/alert/status_effect/buff/perception
+	name = "arcane perception"
+	desc = "I can see everything."
+	icon_state = "buff"
+
+/datum/status_effect/buff/magicperception/lesser
+	id = "lesser perception"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/perception/lesser
+	effectedstats = list("perception" = 1)
+	duration = 20 MINUTES
+
+/atom/movable/screen/alert/status_effect/buff/perception/lesser
+	name = "lesser arcane perception"
+	desc = "I can see somethings."
+	icon_state = "buff"
+
+/datum/status_effect/buff/nocblessing
+	id = "nocblessing"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/nocblessing
+	effectedstats = list("intelligence" = 1)
+	duration = 30 MINUTES
+
+/atom/movable/screen/alert/status_effect/buff/nocblessing
+	name = "Noc's blessing"
+	desc = "Gazing Noc helps me think."
+	icon_state = "buff"

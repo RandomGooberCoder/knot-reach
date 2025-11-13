@@ -55,6 +55,10 @@
 
 	var/stomp_cd
 
+/mob/living/simple_animal/hostile/retaliate/rogue/elemental/colossus/Initialize()
+	. = ..()
+	src.adjust_skillrank(/datum/skill/combat/unarmed, 5, TRUE)
+
 /mob/living/simple_animal/hostile/retaliate/rogue/elemental/colossus/MoveToTarget(list/possible_targets)//Step 5, handle movement between us and our target
 	stop_automated_movement = 1
 	if(!target || !CanAttack(target))
@@ -100,7 +104,11 @@
 	var/turf/deathspot = get_turf(src)
 	new /obj/item/magic/elemental/relic(deathspot)
 	new /obj/item/magic/elemental/fragment(deathspot)
+	new /obj/item/magic/elemental/fragment(deathspot)
 	new /obj/item/magic/elemental/shard(deathspot)
+	new /obj/item/magic/elemental/shard(deathspot)
+	new /obj/item/magic/elemental/mote(deathspot)
+	new /obj/item/magic/elemental/mote(deathspot)
 	new /obj/item/magic/elemental/mote(deathspot)
 	new /obj/item/magic/elemental/mote(deathspot)
 	new /obj/item/magic/melded/t2(deathspot)

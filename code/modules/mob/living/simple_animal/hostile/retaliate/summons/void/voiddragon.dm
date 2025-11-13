@@ -11,6 +11,8 @@ It will also call down lightning strikes from the sky, and fling people with it'
 	ADD_TRAIT(src, TRAIT_TOXIMMUNE, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOPAINSTUN, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_SHOCKIMMUNE, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_GUIDANCE, TRAIT_GENERIC)	//The voiddragon rends
+	src.adjust_skillrank(/datum/skill/combat/unarmed, 6, TRUE)	//parrying the voiddragon should be hard
 
 /mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/simple_add_wound(datum/wound/wound, silent = FALSE, crit_message = FALSE)	//no wounding the void dragon
 	return
@@ -42,6 +44,21 @@ It will also call down lightning strikes from the sky, and fling people with it'
 /mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/proc/unrage()
 	enraged = FALSE
 
+/mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/attackby(obj/item/I, mob/living/carbon/human/user, params)
+	if(istype(I, /obj/item/magic))
+		var/obj/item/magic/magicmaterial = I
+		if(istype(magicmaterial, /obj/item/magic/voidstone))
+			if(health == maxHealth)
+				to_chat(user, "[src] is already healthy!")
+				return
+			to_chat(user, "I start healing [src] with [magicmaterial].")
+			if(do_mob(user, src, 20))
+				var/tier_diff = 0.5 //Voidstone is uncommon, and if your trying to heal the dragon, you deserve the half health heal.
+				visible_message("[src] absorbs [magicmaterial] and is healed.")
+				adjustBruteLoss(-maxHealth * tier_diff)
+				qdel(magicmaterial)
+				return
+	..()
 
 /mob/living/simple_animal/hostile/retaliate/rogue/voiddragon
 	name = "void dragon"
@@ -233,7 +250,7 @@ It will also call down lightning strikes from the sky, and fling people with it'
 	anger_modifier = clamp(max((maxHealth - health) / 50, enraged ? 15 : 0), 0, 20)
 	ranged_cooldown = world.time + ranged_cooldown_time
 
-	if(client)//we have spells for all this stuff on player controlled dragons so don't do any of this when clicking
+	if(client)
 		return
 	if(prob(15 + anger_modifier))
 		lava_swoop()
@@ -568,6 +585,7 @@ It will also call down lightning strikes from the sky, and fling people with it'
 	var/distance = get_dist(user.loc,target.loc)
 	if(distance>3)
 		to_chat(user, span_colossus("[target.p_theyre(TRUE)] too far away!"))
+
 		return FALSE
 	if(do_after(user, 2 SECONDS, target = src))
 		user.Beam(target,icon_state="lightning[rand(1,12)]",time=5)
@@ -631,6 +649,18 @@ It will also call down lightning strikes from the sky, and fling people with it'
 		playsound(C.loc, 'sound/combat/hits/punch/punch_hard (3).ogg', 80, TRUE, TRUE)
 		C.spin(6, 1)
 	..(targets, user, 3)
+
+/mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/death()
+	..()
+	var/turf/deathspot = get_turf(src)
+	new /obj/item/clothing/ring/dragon_ring(deathspot)
+	new /obj/item/clothing/ring/dragon_ring(deathspot)
+	new /obj/item/clothing/ring/dragon_ring(deathspot)
+	new /obj/item/book/granter/spell_points/voiddragon
+	new /obj/item/book/granter/spell_points/voiddragon
+	new /obj/item/book/granter/spell_points/voiddragon
+	update_icon()
+	spill_embedded_objects()
 
 #undef DRAKE_SWOOP_HEIGHT
 #undef DRAKE_SWOOP_DIRECTION_CHANGE_RANGE

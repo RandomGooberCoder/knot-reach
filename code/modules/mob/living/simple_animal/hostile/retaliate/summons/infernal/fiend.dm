@@ -47,7 +47,7 @@
 	rapid = TRUE
 	projectiletype = /obj/projectile/magic/aoe/fireball/rogue/great
 	ranged_message = "throws fire"
-	// var/flame_cd = 0 -- CBA porting in meteor storm just for NPC so keeping it out for now
+	var/flame_cd = 0
 	var/summon_cd = 0
 	inherent_spells = list(/obj/effect/proc_holder/spell/self/call_infernals)
 
@@ -59,7 +59,11 @@
 	var/turf/deathspot = get_turf(src)
 	new /obj/item/magic/infernal/flame(deathspot)
 	new /obj/item/magic/infernal/core(deathspot)
+	new /obj/item/magic/infernal/core(deathspot)
 	new /obj/item/magic/infernal/fang(deathspot)
+	new /obj/item/magic/infernal/fang(deathspot)
+	new /obj/item/magic/infernal/ash(deathspot)
+	new /obj/item/magic/infernal/ash(deathspot)
 	new /obj/item/magic/infernal/ash(deathspot)
 	new /obj/item/magic/infernal/ash(deathspot)
 	new /obj/item/magic/melded/t2(deathspot)
@@ -72,12 +76,12 @@
 		return
 	visible_message(span_danger("<b>[src]</b> [ranged_message] at [A]!"))
 
-	// if(world.time >= src.flame_cd + 250)
-	// 	var/mob/living/targetted = target
-	// 	create_meteors(targetted)
-	// 	src.flame_cd = world.time
+	if(world.time >= src.flame_cd + 250 && !mind)
+		var/mob/living/targetted = target
+		create_meteors(targetted)
+		src.flame_cd = world.time
 
-	if(world.time >= src.summon_cd + 200 && !mind) // Adjusted from 250 to give them a bit more strength in summoning instead to compensate for no meteors
+	if(world.time >= src.summon_cd + 200 && !mind)
 		callforbackup()
 
 		src.summon_cd = world.time
@@ -90,15 +94,38 @@
 		Shoot(A)
 	ranged_cooldown = world.time + ranged_cooldown_time
 
+/obj/effect/proc_holder/spell/invoked/fiend_meteor
+	name = "Meteor storm"
+	desc = "Summons forth dangerous meteors from the sky to scatter and smash foes."
+	overlay_state = "meteor_storm"
+	recharge_time = 20 SECONDS
+	chargetime = 0
+	range = 15
+	antimagic_allowed = TRUE
 
-// /mob/living/simple_animal/hostile/retaliate/rogue/infernal/fiend/proc/create_meteors(atom/target)
-// 	if(!target)
-// 		return
-// 	target.visible_message(span_boldwarning("Fire rains from the sky!"))
-// 	var/turf/targetturf = get_turf(target)
-// 	for(var/turf/turf as anything in RANGE_TURFS(4,targetturf))
-// 		if(prob(20))
-// 			new /obj/effect/temp_visual/target(turf)
+/obj/effect/proc_holder/spell/invoked/fiend_meteor/cast(list/targets, mob/user = usr)
+	var/turf/T = get_turf(targets[1])
+	playsound(T,'sound/magic/meteorstorm.ogg', 80, TRUE)
+	sleep(2)
+	create_meteors(T)
+
+/obj/effect/proc_holder/spell/invoked/fiend_meteor/proc/create_meteors(atom/target)
+	if(!target)
+		return
+	target.visible_message(span_boldwarning("Fire rains from the sky!"))
+	var/turf/targetturf = get_turf(target)
+	for(var/turf/turf as anything in RANGE_TURFS(4,targetturf))
+		if(prob(20))
+			new /obj/effect/temp_visual/target(turf)
+
+/mob/living/simple_animal/hostile/retaliate/rogue/infernal/fiend/proc/create_meteors(atom/target)
+	if(!target)
+		return
+	target.visible_message(span_boldwarning("Fire rains from the sky!"))
+	var/turf/targetturf = get_turf(target)
+	for(var/turf/turf as anything in RANGE_TURFS(4,targetturf))
+		if(prob(20))
+			new /obj/effect/temp_visual/target(turf)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/infernal/fiend/proc/callforbackup()
 	var/list/spawnLists = list(/mob/living/simple_animal/hostile/retaliate/rogue/infernal/imp,

@@ -50,6 +50,10 @@
 	var/rock_cd
 	inherent_spells = list(/obj/effect/proc_holder/spell/invoked/ele_quake)
 
+/mob/living/simple_animal/hostile/retaliate/rogue/elemental/behemoth/Initialize()
+	. = ..()
+	adjust_skillrank(/datum/skill/combat/unarmed, 4, TRUE)
+
 /mob/living/simple_animal/hostile/retaliate/rogue/elemental/behemoth/death(gibbed)
 	..()
 	var/turf/deathspot = get_turf(src)
@@ -57,6 +61,8 @@
 	new /obj/item/magic/elemental/fragment(deathspot)
 	new /obj/item/magic/elemental/shard(deathspot)
 	new /obj/item/magic/elemental/shard(deathspot)
+	new /obj/item/magic/elemental/mote(deathspot)
+	new /obj/item/magic/elemental/mote(deathspot)
 	new /obj/item/magic/elemental/mote(deathspot)
 	new /obj/item/magic/elemental/mote(deathspot)
 	new /obj/item/magic/melded/t1(deathspot)

@@ -62,6 +62,12 @@
 	required_atoms = list(/obj/item/rogueore/cinnabar = 1,/obj/item/paper/scroll = 1,/obj/item/magic/fae/scale = 1, /obj/item/magic/manacrystal = 1, /obj/item/magic/melded/t1 = 1)
 	result_atoms = list(/obj/item/enchantmentscroll/nightvision)
 
+	desc = "Provides extra integrity!"
+	blacklisted = FALSE
+	tier = 2
+	required_atoms = list(/obj/item/rogueore/cinnabar = 1,/obj/item/paper/scroll = 1,/obj/item/magic/artifact = 1, /obj/item/magic/elemental/shard = 1, /obj/item/magic/manacrystal = 1, /obj/item/magic/melded/t1 = 1)
+	result_atoms = list(/obj/item/enchantmentscroll/unbreaking)
+
 /datum/runeritual/enchanting/featherstep
 	name = "Feather Step"
 	desc = "Makes your step lighter and speedier!"
@@ -119,7 +125,23 @@
 	required_atoms = list(/obj/item/rogueore/cinnabar = 1,/obj/item/paper/scroll = 1,/obj/item/magic/fae/core = 1, /obj/item/magic/infernal/fang = 2, /obj/item/magic/melded/t2 = 1)
 	result_atoms = list(/obj/item/enchantmentscroll/lifesteal)
 
-/datum/runeritual/enchanting/frostveil
+/datum/runeritual/enchanting/lightning
+	name = "Lightning"
+	desc = "Shocks foes."
+	blacklisted = FALSE
+	tier = 3
+	required_atoms = list(/obj/item/rogueore/cinnabar = 1,/obj/item/paper/scroll = 1,/obj/item/magic/infernal/core = 1, /obj/item/magic/leyline = 2, /obj/item/magic/melded/t2 = 1)
+	result_atoms = list(/obj/item/enchantmentscroll/lightning)
+
+/datum/runeritual/enchanting/voidtouched
+	name = "voidtouched"
+	desc = "Teleports the target nearby."
+	blacklisted = FALSE
+	tier = 3
+	required_atoms = list(/obj/item/rogueore/cinnabar = 1,/obj/item/paper/scroll = 1, /obj/item/magic/fae/core = 1, /obj/item/magic/voidstone = 2, /obj/item/magic/melded/t2 = 1)
+	result_atoms = list(/obj/item/enchantmentscroll/voidtouched)
+
+/datum/runeritual/enchanting/frostveil	//armor enchantment
 	name = "Frostveil"
 	desc = "Chills foes."
 	blacklisted = FALSE
@@ -150,3 +172,37 @@
 	tier = 4
 	required_atoms = list(/obj/item/rogueore/cinnabar = 1,/obj/item/paper/scroll = 1,/obj/item/magic/fae/essence = 1, /obj/item/magic/fae/core = 2, /obj/item/magic/melded/t3 = 1)
 	result_atoms = list(/obj/item/enchantmentscroll/briars)
+
+/datum/runeritual/enchanting/infernalflame	//weapon enchantment
+	name = "Infernal Flame"
+	desc = "Sets foes aflame."
+	blacklisted = FALSE
+	tier = 4
+	required_atoms = list(/obj/item/rogueore/cinnabar = 1,/obj/item/paper/scroll = 1,/obj/item/magic/infernal/flame = 1, /obj/item/magic/obsidian = 4, /obj/item/magic/melded/t3 = 1)
+	result_atoms = list(/obj/item/enchantmentscroll/infernalflame)
+
+
+/datum/runeritual/enchanting/freeze	//weapon enchantment
+	name = "Freezing"
+	desc = "Freezes Foes into cubes of ice."
+	blacklisted = FALSE
+	tier = 4
+	required_atoms = list(/obj/item/rogueore/cinnabar = 1,/obj/item/paper/scroll = 1,/obj/item/magic/fae/essence = 1, /obj/item/magic/infernal/core = 2, /obj/item/magic/melded/t3 = 1)
+	result_atoms = list(/obj/item/enchantmentscroll/freeze)
+
+
+/datum/runeritual/enchanting/rewind
+	name = "Temporal Rewind"
+	desc = "Rewinds time."
+	blacklisted = FALSE
+	tier = 4
+	required_atoms = list(/obj/item/rogueore/cinnabar = 1,/obj/item/paper/scroll = 1,/obj/item/magic/elemental/relic = 1, /obj/item/magic/fae/core = 2,  /obj/item/magic/melded/t3 = 1)
+	result_atoms = list(/obj/item/enchantmentscroll/rewind)
+
+/datum/runeritual/enchanting/chaosstorm
+	name = "Chaos Storm"
+	desc = "Causes random powerful effects."
+	blacklisted = FALSE
+	tier = 4
+	required_atoms = list(/obj/item/rogueore/cinnabar = 1,/obj/item/paper/scroll = 1,/obj/item/magic/obsidian = 1, /obj/item/magic/manacrystal = 1,  /obj/item/magic/melded/t4 = 1)
+	result_atoms = list(/obj/item/enchantmentscroll/chaos_storm)

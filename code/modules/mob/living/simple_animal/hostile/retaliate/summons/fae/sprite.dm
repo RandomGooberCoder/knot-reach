@@ -46,11 +46,12 @@
 	attack_verb_simple = "jab"
 	dodgetime = 60
 	aggressive = 1
+	movement_type = FLYING
 	var/drug_cd
-
 
 /mob/living/simple_animal/hostile/retaliate/rogue/fae/sprite/Initialize()
 	. = ..()
+	adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/fae/sprite/death(gibbed)
 	..()
