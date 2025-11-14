@@ -168,6 +168,12 @@
 	new pickgem(get_turf(src))
 	qdel(src)
 
+/obj/item/roguegem/random/no_riddle/Initialize()
+	. = ..()
+	var/newgem = list(/obj/item/roguegem/ruby = 5, /obj/item/roguegem/green = 15, /obj/item/roguegem/blue = 10, /obj/item/roguegem/yellow = 20, /obj/item/roguegem/violet = 10, /obj/item/roguegem/diamond = 5)
+	var/pickgem = pickweight(newgem)
+	new pickgem(get_turf(src))
+	qdel(src)
 
 /// riddle
 

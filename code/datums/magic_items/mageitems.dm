@@ -50,6 +50,27 @@
 		/obj/item/reagent_containers/food/snacks/grown/manabloom
 	)
 
+/obj/item/storage/magebag/starter/double
+	populate_contents = list(
+		/obj/item/magic/manacrystal,
+		/obj/item/magic/manacrystal,
+		/obj/item/magic/manacrystal,
+		/obj/item/magic/manacrystal,
+		/obj/item/magic/manacrystal,
+		/obj/item/magic/manacrystal,
+		/obj/item/magic/obsidian,
+		/obj/item/magic/obsidian,
+		/obj/item/magic/obsidian,
+		/obj/item/magic/obsidian,
+		/obj/item/magic/obsidian,
+		/obj/item/magic/obsidian,
+		/obj/item/reagent_containers/food/snacks/grown/manabloom,
+		/obj/item/reagent_containers/food/snacks/grown/manabloom,
+		/obj/item/reagent_containers/food/snacks/grown/manabloom,
+		/obj/item/reagent_containers/food/snacks/grown/manabloom,
+		/obj/item/reagent_containers/food/snacks/grown/manabloom,
+		/obj/item/reagent_containers/food/snacks/grown/manabloom,
+	)
 /obj/item/rogueweapon/huntingknife/idagger/silver/arcyne
 	name = "arcyne silver dagger"
 	desc = "This dagger glows a faint purple. Quicksilver runs across its blade."
