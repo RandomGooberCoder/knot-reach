@@ -1,4 +1,3 @@
-#define QDEL_LIST_CONTENTS(L) if(L) { for(var/I in L) qdel(I); L.Cut(); }
 /obj/effect/decal/cleanable/roguerune	// basis for all rituals
 	name = "ritualrune"
 	desc = "Strange symbols pulse upon the ground..."
@@ -185,18 +184,20 @@ GLOBAL_LIST(teleport_runes)
 				else if(tier == 1)
 					rituals += GLOB.t1summoningrunerituallist
 
-			else if(istype(src,/obj/effect/decal/cleanable/roguerune/arcyne/wall))
+			else if(istype(src, /obj/effect/decal/cleanable/roguerune/arcyne/wall))
 				var/tier = src.tier
 				if(tier >= 3)
 					rituals += GLOB.t4wallrunerituallist
 				else
 					rituals += GLOB.t2wallrunerituallist
-			else if(istype(src,/obj/effect/decal/cleanable/roguerune/arcyne/empowerment))
+			else if(istype(src, /obj/effect/decal/cleanable/roguerune/arcyne/empowerment))
 				var/tier = src.tier
 				if(tier == 1)
 					rituals += GLOB.buffrunerituallist
 				else
 					rituals+= GLOB.t2buffrunerituallist
+			else if(istype(src, /obj/effect/decal/cleanable/roguerune/arcyne/reality_manipulation))
+				rituals += GLOB.realitymaniprituallist
 
 			else if(istype(src,/obj/effect/decal/cleanable/roguerune/arcyne/wall))
 				var/tier = src.tier
@@ -349,6 +350,9 @@ GLOBAL_LIST(teleport_runes)
 	playsound(usr, 'sound/magic/teleport_diss.ogg', 75, TRUE)
 
 	ritual_result = pickritual.on_finished_recipe(usr, selected_atoms, loc)
+	if(!ritual_result)
+		fail_invoke()
+		return FALSE
 
 	return TRUE
 
@@ -478,6 +482,26 @@ GLOBAL_LIST(teleport_runes)
 	pixel_y = -64
 	invocation = "Zar’kalthra ul’norak ven’thelis!"
 
+/obj/effect/decal/cleanable/roguerune/arcyne/reality_manipulation
+	name = "reality manipulation array"
+	desc = "arcane symbols pulse upon the ground..."
+	icon = 'icons/effects/96x96.dmi'
+	icon_state = "imbuement2"
+	tier = 2
+	runesize = 1
+	pixel_x = -32 //So the big ol' 96x96 sprite shows up right
+	pixel_y = -32
+	invocation = "Ral’kor vek’varun eyn’torath!"
+	layer = SIGIL_LAYER
+	can_be_scribed = TRUE
+	ritual_number = TRUE
+	associated_ritual = /datum/runeritual/reality_manipulation
+
+/obj/effect/decal/cleanable/roguerune/arcyne/reality_manipulation/invoke(list/invokers, datum/runeritual/runeritual)
+	if(!..())
+		return
+	if(ritual_result)
+		pickritual.cleanup_atoms(selected_atoms)
 
 /obj/effect/decal/cleanable/roguerune/arcyne/wall
 	name = "wall accession matrix"
@@ -491,18 +515,19 @@ GLOBAL_LIST(teleport_runes)
 	var/list/barriers = list()
 
 /obj/effect/decal/cleanable/roguerune/arcyne/wall/Destroy()
-	QDEL_LIST_CONTENTS(barriers)
+	QDEL_LIST(barriers)
 	barriers = null
 	return ..()
 
 /obj/effect/decal/cleanable/roguerune/arcyne/wall/attack_hand(mob/living/user)
 	if(active)
-		QDEL_LIST_CONTENTS(barriers)
+		QDEL_LIST(barriers)
 		to_chat(user, span_warning("You deactivate the [src]!"))
 		playsound(usr, 'sound/magic/teleport_diss.ogg', 75, TRUE)
 		active = FALSE
 		return
 	. = ..()
+
 /obj/effect/decal/cleanable/roguerune/arcyne/wall/invoke(list/invokers, datum/runeritual/runeritual)
 	if(!..())	//VERY important. Calls parent and checks if it fails. parent/invoke has all the checks for ingredients
 		return

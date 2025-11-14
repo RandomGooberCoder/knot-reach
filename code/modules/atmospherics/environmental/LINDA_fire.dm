@@ -48,6 +48,10 @@
 	air_update_turf()
 	addtimer(CALLBACK(src, PROC_REF(trigger_weather)), rand(5,20))
 
+/obj/effect/hotspot/proc/try_fire_act(atom/target, added, maxstacks)
+	SHOULD_CALL_PARENT(FALSE)
+	target.fire_act(added, maxstacks)
+
 /obj/effect/hotspot/proc/perform_exposure()
 
 	var/turf/open/location = loc
@@ -59,8 +63,7 @@
 	for(var/A in location)
 		var/atom/AT = A
 		if(!QDELETED(AT) && AT != src) // It's possible that the item is deleted in temperature_expose
-			AT.fire_act(1, 20)
-	return
+			try_fire_act(AT, 1, 20)
 
 /obj/effect/hotspot/proc/gauss_lerp(x, x1, x2)
 	var/b = (x1 + x2) * 0.5
@@ -154,7 +157,7 @@
 	..()
 	if(isliving(AM))
 		var/mob/living/L = AM
-		L.fire_act(1, 20)
+		try_fire_act(L, 1, 20)
 
 /obj/effect/dummy/lighting_obj/moblight/fire
 	name = "fire"
@@ -200,5 +203,35 @@
 /obj/effect/hotspot/proc/change_firelevel(level = 1)
 	firelevel = level
 	icon_state = "[firelevel]"
+
+/// For use with firewall spell
+/obj/effect/hotspot/firewall
+	life = 6
+	firelevel = 3
+	color = COLOR_ORANGE
+	light_color = COLOR_ORANGE
+	var/mob/owner
+
+/obj/effect/hotspot/firewall/Initialize(mapload, starting_volume, starting_temperature, mob/owner)
+	if(!istype(owner))
+		return INITIALIZE_HINT_QDEL
+	src.owner = owner
+	RegisterSignal(owner, COMSIG_QDELETING, PROC_REF(on_owner_qdel))
+	. = ..()
+
+/obj/effect/hotspot/firewall/proc/on_owner_qdel()
+	SIGNAL_HANDLER
+	qdel(src)
+
+/obj/effect/hotspot/firewall/Destroy()
+	UnregisterSignal(owner, COMSIG_QDELETING)
+	owner = null
+	return ..()
+
+/obj/effect/hotspot/firewall/try_fire_act(mob/living/carbon/human/target, added, maxstacks)
+	if(istype(target) && target == owner)
+		return
+
+	return ..()
 
 #undef INSUFFICIENT

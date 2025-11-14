@@ -8,6 +8,7 @@ GLOBAL_LIST_INIT(t2wallrunerituallist, generate_t2wall_rituallist())
 GLOBAL_LIST_INIT(t4wallrunerituallist, generate_t4wall_rituallist())
 GLOBAL_LIST_INIT(buffrunerituallist, generate_buff_rituallist())
 GLOBAL_LIST_INIT(t2buffrunerituallist, generate_t2buff_rituallist())
+GLOBAL_LIST_INIT(realitymaniprituallist, generate_rmanip_rituallist())
 GLOBAL_LIST_INIT(t2enchantmentrunerituallist,generate_t2enchantment_rituallist())
 GLOBAL_LIST_INIT(t4enchantmentrunerituallist,generate_t4enchantment_rituallist())
 
@@ -103,6 +104,15 @@ GLOBAL_LIST_INIT(t4enchantmentrunerituallist,generate_t4enchantment_rituallist()
 	RETURN_TYPE(/list)
 	var/list/runerituals = list()
 	for(var/datum/runeritual/runeritual as anything in subtypesof(/datum/runeritual/buff))
+		if(runeritual.blacklisted)
+			continue
+		runerituals[initial(runeritual.name)] = runeritual
+	return runerituals
+
+/proc/generate_rmanip_rituallist()
+	RETURN_TYPE(/list)
+	var/list/runerituals = list()
+	for(var/datum/runeritual/runeritual as anything in subtypesof(/datum/runeritual/reality_manipulation))
 		if(runeritual.blacklisted)
 			continue
 		runerituals[initial(runeritual.name)] = runeritual

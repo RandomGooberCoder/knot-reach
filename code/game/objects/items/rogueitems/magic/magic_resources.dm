@@ -205,3 +205,10 @@
     desc = "A mystical essence embued with the power of Dendor. Merely holding it transports one's mind to ancient times."
     sellprice = 250
     tier = 4
+
+/obj/item/magic/reality_fragment
+	name = "reality fragment"
+	icon_state = "quark"
+	desc = "Something beyond comprehension. Some say that it is a gift from Noc. Others that it is a part of something greater than the Pantheon itself. But why do I taste metal in my mouth?"
+	sellprice = 0
+	tier = 5

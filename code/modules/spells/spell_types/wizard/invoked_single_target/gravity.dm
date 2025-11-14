@@ -21,11 +21,13 @@
 	glow_intensity = GLOW_INTENSITY_MEDIUM
 	gesture_required = TRUE
 	range = 7
+	/// Visual indication displayed before delay
+	var/trap_effect = /obj/effect/temp_visual/gravity_trap
+	/// Visual indication displayed after delay, aka actual effect
+	var/spell_effect = /obj/effect/temp_visual/gravity
 	var/delay = 5
 	var/damage = 0 // damage based off your str 
 	var/area_of_effect = 0
-
-
 
 /obj/effect/proc_holder/spell/invoked/gravity/cast(list/targets, mob/user)
 	var/turf/T = get_turf(targets[1])
@@ -33,33 +35,35 @@
 	for(var/turf/affected_turf in view(area_of_effect, T))
 		if(affected_turf.density)
 			continue
-			
 
 	for(var/turf/affected_turf in view(area_of_effect, T))
-	
-		new /obj/effect/temp_visual/gravity_trap(affected_turf)
-	
-		playsound(T, 'sound/magic/gravity.ogg', 80, TRUE, soundping = FALSE)
 
+		new trap_effect(affected_turf)
+		playsound(T, 'sound/magic/gravity.ogg', 80, TRUE, soundping = FALSE)
 		sleep(delay)
-		new /obj/effect/temp_visual/gravity(affected_turf)
+		new spell_effect(affected_turf)
 		for(var/mob/living/L in affected_turf.contents) 
 			if(L.anti_magic_check())
-				visible_message(span_warning("The gravity fades away around you [L] "))  //antimagic needs some testing
+				visible_message(span_warning("The gravity fades away around [L]!"))
 				playsound(get_turf(L), 'sound/magic/magic_nulled.ogg', 100)
-				return TRUE
+				continue
 
-			if(L.STASTR <= 15)
-				L.adjustBruteLoss(60)
-				L.Knockdown(5)
-				to_chat(L, "<span class='userdanger'>You're magically weighed down, losing your footing!</span>")
-			else
-				L.OffBalance(10)
-				L.adjustBruteLoss(15)
-				to_chat(L, "<span class='userdanger'>You're magically weighed down, and your strength resist!</span>")
-			
-			
+			do_grav_effect(L)
+
 	return TRUE
+
+/obj/effect/proc_holder/spell/invoked/gravity/proc/do_grav_effect(mob/living/target)
+	ASSERT(target)
+
+	if(target.STASTR <= 15)
+		target.adjustBruteLoss(60)
+		target.Knockdown(5)
+		to_chat(target, span_userdanger("You're magically weighed down, losing your footing!"))
+	else
+		target.OffBalance(10)
+		target.adjustBruteLoss(15)
+		to_chat(target, span_userdanger("You're magically weighed down, and your strength resist!"))
+
 /obj/effect/temp_visual/gravity
 	icon = 'icons/effects/effects.dmi'
 	icon_state = "hierophant_squares"
