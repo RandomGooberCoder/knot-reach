@@ -166,6 +166,9 @@
 		if(client.charging && used_intent.tranged && !used_intent.tshield)
 			return FALSE
 
+	if(SEND_SIGNAL(src, COMSIG_LIVING_CHECK_PARRY, intenty, user) & COMPONENT_FORCE_PARRY)
+		return TRUE // Parry was handled by a component. Note - chat feedback should be handled by the component, too.
+
 	var/prob2defend = user.defprob
 	var/mob/living/H = src
 	var/mob/living/U = user

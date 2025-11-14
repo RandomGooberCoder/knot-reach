@@ -32,3 +32,7 @@
 
 ///From living/Life() (seconds, times_fired)
 #define COMSIG_LIVING_LIFE "living_life"
+
+/// From `/mob/living/proc/checkdefense` (mob/living/defender, datum/intent/intenty, mob/living/attacker)
+#define COMSIG_LIVING_CHECK_PARRY "living_check_parry"
+	#define COMPONENT_FORCE_PARRY (1<<0) // Forces autoparry
