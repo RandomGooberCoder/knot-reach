@@ -61,7 +61,7 @@
 	name = "Crate of Lesser Health Potions"
 	desc = "Red that MIGHT keep men alive, on a budget."
 	item_type = /obj/structure/closet/crate/chest/steward/redpotionweak
-	export_price = 50
+	export_price = 100
 	importexport_amt = 1
 
 /obj/structure/closet/crate/chest/steward/redpotionweak/Initialize()
@@ -71,21 +71,6 @@
 	new /obj/item/reagent_containers/glass/bottle/rogue/minorhealthpot(src)
 	new /obj/item/reagent_containers/glass/bottle/rogue/minorhealthpot(src)
 	new /obj/item/reagent_containers/glass/bottle/rogue/minorhealthpot(src)
-
-/datum/roguestock/import/redpotion
-	name = "Crate of Health Potions"
-	desc = "Red that keeps men alive."
-	item_type = /obj/structure/closet/crate/chest/steward/redpotion
-	export_price = 100
-	importexport_amt = 1
-
-/obj/structure/closet/crate/chest/steward/redpotion/Initialize()
-	. = ..()
-	new /obj/item/reagent_containers/glass/bottle/rogue/healthpot(src)
-	new /obj/item/reagent_containers/glass/bottle/rogue/healthpot(src)
-	new /obj/item/reagent_containers/glass/bottle/rogue/healthpot(src)
-	new /obj/item/reagent_containers/glass/bottle/rogue/healthpot(src)
-	new /obj/item/reagent_containers/glass/bottle/rogue/healthpot(src)
 
 /datum/roguestock/import/rotpotion
 	name = "Crate of Rot Cure Potions"

@@ -20,7 +20,7 @@
 	if(M.blood_volume < BLOOD_VOLUME_NORMAL) //can not overfill
 		M.blood_volume = min(M.blood_volume+20, BLOOD_VOLUME_MAXIMUM)
 	if(wCount.len > 0)
-		M.heal_wounds(10)
+		M.heal_wounds(1) // ~48 WHP  per bottle
 		M.update_damage_overlays()
 		if(prob(10))
 			to_chat(M, span_nicegreen("I feel my wounds mending."))
@@ -74,8 +74,7 @@
 		//can overfill you with blood, but at a slower rate
 		M.blood_volume = min(M.blood_volume+5, BLOOD_VOLUME_MAXIMUM)
 	if(wCount.len > 0)
-		//some peeps dislike the church, this allows an alternative thats not a doctor or sleep.
-		M.heal_wounds(8)
+		M.heal_wounds(3) // this should give ~144 WHP healing per bottle
 		M.update_damage_overlays()
 		if(prob(10))
 			to_chat(M, span_nicegreen("I feel my wounds mending."))
@@ -102,7 +101,7 @@
 	else
 		M.blood_volume = min(M.blood_volume+10, BLOOD_VOLUME_MAXIMUM)
 	if(wCount.len > 0)
-		M.heal_wounds(12) //Less wound healing. Two sips will fix an artery, but only barely. 
+		M.heal_wounds(8) // 384 WHP per bottle
 		M.update_damage_overlays()
 		if(prob(10))
 			to_chat(M, span_nicegreen("I feel my wounds mending."))
