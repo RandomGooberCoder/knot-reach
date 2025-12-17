@@ -10,7 +10,7 @@
 	layer = ABOVE_MOB_LAYER
 	plane = GAME_PLANE_UPPER
 	var/current_category = "Postings"
-	var/list/categories = list("Postings", "Premium Postings")
+	var/list/categories = list("Postings", "Premium Postings", "Scout Report", "Mercenary Roster")
 
 /obj/structure/roguemachine/boardbarrier //Blocks sprite locations
 	name = ""
@@ -115,6 +115,12 @@
 			for(var/datum/noticeboardpost/saved_post in GLOB.premium_noticeboardposts)
 				contents += saved_post.banner
 				board_empty = FALSE
+		if("Mercenary Roster")
+			// Display the mercenary roster from the statue
+			if(SSroguemachine.mercenary_statue)
+				contents += SSroguemachine.mercenary_statue.get_readonly_roster_html()
+			else
+				contents += "<br><span class='notice'>The mercenary statue network is not available.</span>"
 	if(board_empty)
 		contents += "<br><span class='notice'>No postings have been made yet!</span>"
 	var/datum/browser/popup = new(user, "NOTICEBOARD", "", 800, 650)
