@@ -9416,6 +9416,12 @@
 /obj/structure/closet/dirthole,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/cave/skeletoncrypt)
+"cEA" = (
+/obj/structure/roguemachine/talkstatue/mercenary{
+	pixel_y = 32
+	},
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/indoors/town/tavern)
 "cEM" = (
 /obj/machinery/light/rogue/oven/south,
 /obj/machinery/light/rogue/hearth{
@@ -10946,6 +10952,12 @@
 	},
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/indoors/cave)
+"cYq" = (
+/obj/structure/chair/stool/rogue,
+/obj/effect/landmark/start/villager,
+/obj/machinery/light/rogue/wallfire/candle,
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/indoors/town/tavern)
 "cYt" = (
 /obj/structure/chair/stool/rogue,
 /mob/living/carbon/human/species/goblin/npc/ambush/sea,
@@ -270701,7 +270713,7 @@ dJN
 dJN
 yjS
 taS
-wUE
+cYq
 jAJ
 taS
 fKH
@@ -272057,7 +272069,7 @@ cns
 tSq
 rbu
 taS
-dzd
+cEA
 rbu
 rbu
 rbu
