@@ -80,6 +80,8 @@
 	/// can this mob move freely in space (should be a trait)
 	var/spacewalk = FALSE
 
+	var/extra_hearing_range = 0
+
 	/**
 	  * back up of the real name during admin possession
 	  *
@@ -314,3 +316,8 @@
 	var/last_client_interact = 0
 
 	var/flying = FALSE
+
+	var/datum/weakref/offered_item_ref
+
+	/// cooldown for the next time this person can offer
+	COOLDOWN_DECLARE(offer_cooldown)

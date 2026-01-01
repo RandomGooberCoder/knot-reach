@@ -674,8 +674,8 @@
 /obj/structure/apiary/proc/create_new_queen()
 	queen_maturity = 0
 	
-	pollen = min(0, pollen-50)
-	stored_combs = min(0, stored_combs-50)
+	pollen = max(0, pollen-50)
+	stored_combs = max(0, stored_combs-5)
 	update_icon_state()
 
 	var/obj/item/queen_bee/new_queen = new(get_turf(src))
@@ -728,24 +728,6 @@
 	if(queen_health <= 0)
 		visible_message(span_warning("[src] dies of old age!"))
 		qdel(src)
-
-
-/*
-/obj/item/clothing/head/beekeeper_head
-	name = "beekeeper hat"
-	desc = "A hat with a mesh veil to protect from angry bees."
-	icon_state = "beekeeper"
-	clothing_flags = THICKMATERIAL
-	flags_cover = HEADCOVERSMOUTH
-
-/obj/item/clothing/armor/beekeeper_suit
-	name = "beekeeper suit"
-	desc = "A suit designed to protect from bee stings."
-	icon_state = "beekeeper"
-	clothing_flags = THICKMATERIAL
-	body_parts_covered = CHEST|GROIN|ARMS|LEGS
-	allowed = list(/obj/item/bee_smoker)
-*/
 
 /obj/item/bee_smoker
 	name = "bee smoker"

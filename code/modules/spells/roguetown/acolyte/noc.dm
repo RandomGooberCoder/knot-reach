@@ -18,8 +18,8 @@
 	invocation = "Noc blinds thee of thy sins!"
 	invocation_type = "shout" //can be none, whisper, emote and shout
 	associated_skill = /datum/skill/magic/holy
-	devotion_cost = 15
-	recharge_time = 15 SECONDS
+	devotion_cost = 50
+	recharge_time = 25 SECONDS
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	miracle = TRUE
 	cost = 3
@@ -50,7 +50,7 @@
 	movement_interrupt = FALSE
 	spell_tier = 1
 	invocation_type = "none"
-	sound = 'sound/misc/area.ogg' //This sound doesnt play for some reason. Fix me.
+	sound = 'sound/misc/fade.ogg'
 	associated_skill = /datum/skill/magic/arcane
 	antimagic_allowed = TRUE
 	hide_charge_effect = TRUE
@@ -126,6 +126,9 @@
 			if(!user.mind?.has_spell(/obj/effect/proc_holder/spell/invoked/diagnose/secular))
 				var/secular_diagnose = new /obj/effect/proc_holder/spell/invoked/diagnose/secular
 				user.mind?.AddSpell(secular_diagnose)
+			if(!user.mind?.has_spell(/obj/effect/proc_holder/spell/targeted/touch/prestidigitation))
+				var/prestidigitation = new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation
+				user.mind?.AddSpell(prestidigitation)
 			add_spells(user, utility_bundle, choice_count = 2)
 		if("Offense")
 			add_spells(user, offensive_bundle, grant_all = TRUE)
@@ -173,6 +176,7 @@
 	warnie = "sydwarning"
 	movement_interrupt = FALSE
 	invocation = "Noc guide my gaze."
+	miracle = TRUE
 	invocation_type = "whisper"
 	sound = null
 	associated_skill = /datum/skill/magic/holy

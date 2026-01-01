@@ -1,11 +1,12 @@
 /datum/advclass/mercenary/vaquero
 	name = "Vaquero"
 	tutorial = "Originating in the vibrant Kingdom of Etrusca, a 'vaquero' had originally been a mere cattle-driver... Now, though, it has become a title for roaming swashbucklers. Whether they set out as a defender of the commonfolk or a pilferer of purses, the Vaquero is defined by the tale they carve across continents - and more frequently - by their story's violent end."
-	outfit = /datum/outfit/job/roguetown/mercenary/vaquero
+	outfit = /datum/outfit/job/mercenary/vaquero
 	horse = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigabuck/tame/saddled
 	cmode_music = 'sound/music/combat_vaquero.ogg'
 	category_tags = list(CTAG_MERCENARY)
 	class_select_category = CLASS_CAT_ETRUSCA
+	origin_override_type = /datum/virtue/origin/etrusca
 
 	subclass_languages = list(
 		/datum/language/etruscan,
@@ -13,10 +14,11 @@
 
 	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_DECEIVING_MEEKNESS, TRAIT_MEDIUMARMOR)
 	subclass_stats = list(
-		STATKEY_SPD = 3,
+		STATKEY_SPD = 2,
 		STATKEY_INT = 2,
-		STATKEY_END = 2
+		STATKEY_END = 1
 	)
+	hiredbuff = /datum/status_effect/buff/merchired/vaquero
 
 	subclass_skills = list(
 		/datum/skill/combat/swords = SKILL_LEVEL_EXPERT,
@@ -36,12 +38,15 @@
 		/datum/skill/misc/music = SKILL_LEVEL_EXPERT,
 	)
 
+/datum/status_effect/buff/merchired/vaquero
+	effectedstats = list(STATKEY_SPD = 1, STATKEY_END = 1)
+
 /datum/advclass/mercenary/vaquero/equipme(mob/living/carbon/human/H)
 	if(should_wear_femme_clothes(H))
 		horse = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/tame/saddled
 	return ..()
 
-/datum/outfit/job/roguetown/mercenary/vaquero/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/mercenary/vaquero/pre_equip(mob/living/carbon/human/H)
 	..()
 	head = /obj/item/clothing/head/roguetown/bardhat
 	mouth = /obj/item/alch/rosa
@@ -67,7 +72,7 @@
 					/obj/item/roguekey/mercenary = 1
 					)
 	var/weapons = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman","Flute","Trumpet")
-	var/weapon_choice = input("Choose your instrument.", "TAKE UP ARMS") as anything in weapons
+	var/weapon_choice = input(H, "Choose your instrument.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Harp")

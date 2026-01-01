@@ -36,3 +36,9 @@
 /// From `/mob/living/proc/checkdefense` (mob/living/defender, datum/intent/intenty, mob/living/attacker)
 #define COMSIG_LIVING_CHECK_PARRY "living_check_parry"
 	#define COMPONENT_FORCE_PARRY (1<<0) // Forces autoparry
+
+/// From /obj/item/grabbing/bite/drinklimb() (mob/living/target)
+#define COMSIG_LIVING_DRINKED_LIMB_BLOOD "living_drinked_limb_blood"
+
+/// From /obj/item/organ/proc/Remove() (mob/living/carbon/lost_organ, obj/item/organ/removed, special, drop_if_replaced)
+#define COMSIG_MOB_ORGAN_REMOVED "mob_organ_removed"

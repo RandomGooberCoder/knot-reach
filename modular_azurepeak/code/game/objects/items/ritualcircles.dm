@@ -373,7 +373,7 @@
 	name = "Rune of Beasts"
 	desc = "A Holy Rune of Dendor. Becoming one with nature is to connect with ones true instinct."
 	icon_state = "dendor_chalky"
-	var/bestialrites = list("Rite of the Lesser Wolf")
+	var/bestialrites = list("Rite of the Lesser Wolf","Borrowed Madness","Spider Kinship")
 
 /obj/structure/ritualcircle/dendor/attack_hand(mob/living/user)
 	if((user.patron?.type) != /datum/patron/divine/dendor)
@@ -405,12 +405,76 @@
 							user.apply_status_effect(/datum/status_effect/debuff/ritesexpended_high)
 							spawn(120)
 								icon_state = "dendor_chalky"
+		if("Borrowed Madness")
+			if(HAS_TRAIT(user, TRAIT_RITES_BLOCKED))
+				to_chat(user,span_smallred("I have performed enough rituals for the day... I must rest before communing more."))
+				return
+			if(do_after(user, 50))
+				user.say("I pray for strength...")
+				playsound(loc, 'sound/vo/mobs/vw/idle (1).ogg', 100, FALSE, -1)
+				if(do_after(user, 50))
+					user.say("I pray for pain...")
+					playsound(loc, 'sound/vo/mobs/vw/idle (4).ogg', 100, FALSE, -1)
+					if(do_after(user, 50))
+						loc.visible_message(span_warning("[user] produces an eerie as they titter quietly, softly weeping. Their body twitches ever so slightly..."))
+						playsound(loc, 'sound/vo/mobs/vw/bark (1).ogg', 100, FALSE, -1)
+						if(do_after(user, 30))
+							icon_state = "dendor_active"
+							loc.visible_message(span_warning("[user] suddenly snaps their head upward, letting out a twisted howl!"))
+							playsound(loc, 'sound/vo/mobs/wwolf/howl (2).ogg', 100, FALSE, -1)
+							requestmadness(src)
+							user.apply_status_effect(/datum/status_effect/debuff/ritesexpended_high)
+							spawn(120)
+								icon_state = "dendor_chalky"
+		if("Spider Kinship")
+			if(HAS_TRAIT(user, TRAIT_RITES_BLOCKED))
+				to_chat(user,span_smallred("I have performed enough rituals for the day... I must rest before communing more."))
+				return
+			if(do_after(user, 50))
+				user.say("I call to the ruthless wilds,")
+				playsound(loc, 'sound/vo/mobs/spider/idle (1).ogg', 100, FALSE, -1)
+				if(do_after(user, 50))
+					user.say("... grant me an agile form of your dominion..!")
+					playsound(loc, 'sound/vo/mobs/spider/idle (3).ogg', 100, FALSE, -1)
+					if(do_after(user, 30))
+						icon_state = "dendor_active"
+						loc.visible_message(span_warning("[user] seizes up, suddenly covered in a mess of silky webs, which then slough away into a sticky pile!"))
+						playsound(loc, 'sound/vo/mobs/spider/pain.ogg', 100, FALSE, -1)
+						spiderkin(src)
+						user.apply_status_effect(/datum/status_effect/debuff/ritesexpended_high)
+						spawn(120)
+							icon_state = "dendor_chalky"								
 
 /obj/structure/ritualcircle/dendor/proc/lesserwolf(src)
 	var/ritualtargets = range(1, loc)
 	for(var/mob/living/carbon/human/target in ritualtargets)
 		target.apply_status_effect(/datum/status_effect/buff/lesserwolf)
 
+/obj/structure/ritualcircle/dendor/proc/requestmadness(src)
+	var/ritualtargets = range(0, loc)
+	for(var/mob/living/carbon/human/target in ritualtargets)
+		if((target.patron?.type) != /datum/patron/divine/dendor)
+			to_chat(target, span_warning("The ritual's power does not recognize me..."))
+			continue
+		to_chat(target,span_userdanger("Do you like hurting other people?"))
+		target.flash_fullscreen("redflash3")
+		target.emote("agony")
+		target.Unconscious(200)
+		target.Knockdown(200)
+		target.mind?.AddSpell(new /obj/effect/proc_holder/spell/targeted/shapeshift/dendormole)
+
+/obj/structure/ritualcircle/dendor/proc/spiderkin(src)
+	var/ritualtargets = range(0, loc)
+	for(var/mob/living/carbon/human/target in ritualtargets)
+		if((target.patron?.type) != /datum/patron/divine/dendor)
+			to_chat(target, span_warning("The ritual's power does not recognize me..."))
+			continue
+		to_chat(target,span_userdanger("The webs of madness and nature whisper to me. The webs are eternal. Long live the Nest!"))
+		target.flash_fullscreen("redflash3")
+		target.emote("agony")
+		target.Unconscious(100)
+		target.Knockdown(200)
+		target.mind?.AddSpell(new /obj/effect/proc_holder/spell/targeted/shapeshift/mireboi)
 
 /obj/structure/ritualcircle/malum
 	name = "Rune of Forge"
@@ -756,11 +820,11 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 		loc.visible_message(span_cult("Great hooks come from the rune, embedding into [target]'s ankles, pulling them onto the rune. Then, into their wrists. Their lux is torn from their chest, and reforms into armor. "))
 	spawn(20)
 		playsound(loc, 'sound/combat/hits/onmetal/grille (2).ogg', 50)
-		target.equipOutfit(/datum/outfit/job/roguetown/darksteelrite)
+		target.equipOutfit(/datum/outfit/job/darksteelrite)
 		spawn(40)
 			to_chat(target, span_purple("They are ignorant, backwards, without hope. You. You will be powerful."))
 
-/datum/outfit/job/roguetown/darksteelrite/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/darksteelrite/pre_equip(mob/living/carbon/human/H)
 	..()
 	var/list/items = list()
 	items |= H.get_equipped_items(TRUE)
@@ -768,12 +832,14 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 		H.dropItemToGround(I, TRUE)
 	H.drop_all_held_items()
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/zizo
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo
 	pants = /obj/item/clothing/under/roguetown/platelegs/zizo
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/zizo
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/zizo
 	gloves = /obj/item/clothing/gloves/roguetown/plate/zizo
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/zizo
 	backr = /obj/item/rogueweapon/sword/long/zizo
-	neck = /obj/item/clothing/neck/roguetown/bevor
+	neck = /obj/item/clothing/neck/roguetown/bevor/zizo
 
 
 /obj/structure/ritualcircle/zizo/proc/rituosbone(mob/living/carbon/human/target)
@@ -786,7 +852,7 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 	if (target.mob_biotypes & MOB_UNDEAD)
 		loc.visible_message(span_cult("YOU HAVE NO MORE LYFE TO GIVE, FOR YOUR HEART DOES NOT BEAT!"))
 		return
-	if (target.mind?.has_antag_datum(/datum/antagonist/vampire/lesser))
+	if (target.mind?.has_antag_datum(/datum/antagonist/vampire))
 		loc.visible_message(span_cult("YOU HAVE NO MORE LYFE TO GIVE, FOR YOUR HEART DOES NOT BEAT, CHILDE OF KAIN!"))
 		return
 	if (target.mind?.has_antag_datum(/datum/antagonist/werewolf/lesser))
@@ -807,10 +873,12 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 		ADD_TRAIT(target, TRAIT_NOPAIN, "[type]")
 		ADD_TRAIT(target, TRAIT_TOXIMMUNE, "[type]")
 		ADD_TRAIT(target, TRAIT_STEELHEARTED, "[type]")
-		ADD_TRAIT(target, TRAIT_INFINITE_STAMINA, "[type]")
+		ADD_TRAIT(target, TRAIT_INFINITE_ENERGY, "[type]")
+		ADD_TRAIT(target, TRAIT_SLOW_SWIMMER, "[type]")
 		ADD_TRAIT(target, TRAIT_BLOODLOSS_IMMUNE, "[type]")
 		ADD_TRAIT(target, TRAIT_LIMBATTACHMENT, "[type]")
 		ADD_TRAIT(target, TRAIT_EASYDISMEMBER, "[type]")
+		ADD_TRAIT(target, TRAIT_SILVER_WEAK, "[type]")
 		if (!HAS_TRAIT(target, TRAIT_ARCYNE_T3) && !HAS_TRAIT(target, TRAIT_ARCYNE_T4) || HAS_TRAIT(target, TRAIT_ARCYNE_T2))
 			REMOVE_TRAIT(target, TRAIT_ARCYNE_T2, "[type]")
 			ADD_TRAIT(target, TRAIT_ARCYNE_T3, "[type]")
@@ -909,13 +977,13 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 	loc.visible_message(span_cult("[target]'s lux pours from their nose, into the rune, gleaming golds sizzles. Molten gold and metals swirl into armor, seered to their skin."))
 	spawn(20)
 		playsound(loc, 'sound/combat/hits/onmetal/grille (2).ogg', 50)
-		target.equipOutfit(/datum/outfit/job/roguetown/gildedrite)
+		target.equipOutfit(/datum/outfit/job/gildedrite)
 		// target.apply_status_effect(/datum/status_effect/debuff/devitalised) // Removed: do not consume lux
 		spawn(40)
 			to_chat(target, span_cult("More to the maw, this shall help feed our greed."))
 
 
-/datum/outfit/job/roguetown/gildedrite/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/gildedrite/pre_equip(mob/living/carbon/human/H)
 	..()
 	var/list/items = list()
 	items |= H.get_equipped_items(TRUE)
@@ -923,20 +991,20 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 		H.dropItemToGround(I, TRUE)
 	H.drop_all_held_items()
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/matthios
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/matthios
 	pants = /obj/item/clothing/under/roguetown/platelegs/matthios
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/matthios
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/matthios
 	gloves = /obj/item/clothing/gloves/roguetown/plate/matthios
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/matthios
-	neck = /obj/item/clothing/neck/roguetown/chaincoif/chainmantle
+	neck = /obj/item/clothing/neck/roguetown/chaincoif/chainmantle/matthios
 	backr = /obj/item/rogueweapon/flail/peasantwarflail/matthios
-
-
 
 /obj/structure/ritualcircle/graggar
 	name = "Rune of Violence"
 	desc = "A Holy Rune of Graggar. Fate broken once, His gift is true freedom for all."
 	icon_state = "graggar_chalky"
-	var/graggarrites = list("Rite of Armaments")
+	var/graggarrites = list("Rite of Armaments", "War Ritual")
 
 /obj/structure/ritualcircle/graggar/attack_hand(mob/living/user)
 	if((user.patron?.type) != /datum/patron/inhumen/graggar)
@@ -945,12 +1013,12 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 	if(!HAS_TRAIT(user, TRAIT_RITUALIST))
 		to_chat(user,span_smallred("I don't know the proper rites for this..."))
 		return
+	if(HAS_TRAIT(user, TRAIT_RITES_BLOCKED))
+		to_chat(user,span_smallred("I have performed enough rituals for the day... I must rest before communing more."))
+		return
 	var/riteselection = input(user, "Rituals of Violence", src) as null|anything in graggarrites
 	switch(riteselection) // put ur rite selection here
 		if("Rite of Armaments")
-			if(HAS_TRAIT(user, TRAIT_RITES_BLOCKED))
-				to_chat(user,span_smallred("I have performed enough rituals for the day... I must rest before communing more."))
-				return
 			var/onrune = view(1, loc)
 			var/list/folksonrune = list()
 			for(var/mob/living/carbon/human/persononrune in onrune)
@@ -959,30 +1027,43 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 			var/target = input(user, "Choose a host") as null|anything in folksonrune
 			if(!target)
 				return
-			if(do_after(user, 50))
-				user.say("Motive force, oh, violence!!")
-				if(do_after(user, 50))
-					user.say("A gorgeous buffet of violence, for you, for you!!")
-					if(do_after(user, 50))
-						user.say("A slaughter awaits!!")
-						if(do_after(user, 50))
-							icon_state = "graggar_active"
-							user.apply_status_effect(/datum/status_effect/debuff/ritesexpended_high)
-							graggararmor(target)
-							spawn(120)
-								icon_state = "graggar_chalky" 
-
-/obj/structure/ritualcircle/graggar/proc/graggararmor(src)
-	var/onrune = range(0, loc)
-	var/list/possible_targets = list()
-	for(var/mob/living/carbon/human/persononrune in onrune)
-		possible_targets += persononrune
-	var/mob/living/carbon/human/target
-	if(possible_targets.len)
-		target = pick(possible_targets)
-	else
-		to_chat(usr, "No valid targets are standing on the rune! You must stand directly on the rune to receive Graggar's blessing.")
-		return
+			if(!do_after(user, 5 SECONDS))
+				return
+			user.say("MOTIVE FORCE, OH VIOLENCE!!")
+			if(!do_after(user, 5 SECONDS))
+				return
+			user.say("A GORGEOUS FEAST OF VIOLENCE, FOR YOU, FOR YOU!!")
+			if(!do_after(user, 5 SECONDS))
+				return
+			user.say("A SLAUGHTER AWAITS!!") // see the numbers taste the violence
+			if(!do_after(user, 5 SECONDS))
+				return
+			icon_state = "graggar_active"
+			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended_high)
+			graggararmor(target)
+			spawn(120)
+				icon_state = "graggar_chalky" 
+		if("War Ritual")
+			to_chat(user, span_userdanger("This ritual will tire me more than usual... Should I proceed?"))
+			if(!do_after(user, 5 SECONDS))
+				return
+			user.say("BLOOD FOR THE WAR GOD, THE CIRCLE IS DRAWN!!")
+			if(!do_after(user, 5 SECONDS))
+				return
+			user.say("LET NOBLE FLESH BE THE PRICE FOR THE HORDE!!")
+			if(!do_after(user, 5 SECONDS))
+				return
+			user.say("LET PORTALS OPEN, LET 'HIS' CHILDREN COME!!")
+			if(!do_after(user, 5 SECONDS))
+				return
+			icon_state = "graggar_active"
+			if(perform_warritual())
+				user.apply_status_effect(/datum/status_effect/debuff/ritesexpended_severe)
+			else
+				to_chat(user, span_smallred("The ritual fails. A body of noble blood - from the inquisition - or from the church must be on the circle!"))
+			spawn(120)
+				icon_state = "graggar_chalky" 
+/obj/structure/ritualcircle/graggar/proc/graggararmor(mob/living/carbon/human/target)
 	if(!HAS_TRAIT(target, TRAIT_HORDE))
 		loc.visible_message(span_cult("THE RITE REJECTS ONE WITHOUT SLAUGHTER IN THEIR HEART!!"))
 		return
@@ -991,18 +1072,51 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 	to_chat(target, span_userdanger("UNIMAGINABLE PAIN!"))
 	target.emote("Agony")
 	playsound(loc, 'sound/misc/smelter_fin.ogg', 50)
-	if(HAS_TRAIT(target, TRAIT_INFINITE_STAMINA) || (target.mob_biotypes & MOB_UNDEAD))
-		loc.visible_message(span_cult("[target]'s rotten lux pours from their nose like viscous tar, sizzling and bubbling around the rune. The solution erupts upwards, searing their skin!"))
-		target.adjustFireLoss(200) //This gets spread across all limbs, 500+ is needed before it knocks someone out.
-		playsound(src,'sound/misc/lava_death.ogg', rand(30,60), TRUE)
-		return
 	loc.visible_message(span_cult("[target]'s lux pours from their nose, into the rune, motive and metals swirl into armor, snug around their form!"))
 	spawn(20)
 		playsound(loc, 'sound/combat/hits/onmetal/grille (2).ogg', 50)
 		target.equipOutfit(/datum/outfit/job/roguetown/viciousrite)
-		// target.apply_status_effect(/datum/status_effect/debuff/devitalised) // Removed: do not consume lux
 		spawn(40)
 			to_chat(target, span_cult("Break them."))
+
+/// Performs the war ritual, which requires a noble or inquisition member in the center of the circle. TRUE on success, FALSE on failure.
+/obj/structure/ritualcircle/graggar/proc/perform_warritual()
+	var/mob/living/carbon/human/victim = null
+	for(var/mob/living/carbon/human/H in get_turf(src))
+		if(H.has_status_effect(/datum/status_effect/debuff/ritualdefiled))
+			continue
+
+		if(H.is_noble() || HAS_TRAIT(H, TRAIT_INQUISITION) || (H.mind?.assigned_role in list("Priest", "Templar", "Martyr")))
+			victim = H
+			break
+
+	if(!victim)
+		return FALSE
+
+	playsound(loc, 'sound/combat/gib (1).ogg', 100, FALSE, -1)
+	loc.visible_message(span_cult("[victim]'s lux pours from their nose, into the rune!"))
+	victim.Stun(60)
+	victim.Knockdown(60)
+	to_chat(victim, span_userdanger("UNIMAGINABLE PAIN!"))
+	victim.apply_status_effect(/datum/status_effect/debuff/ritualdefiled)
+	victim.emote("Agony")
+	victim.visible_message(
+		span_danger("[victim] writhes in unimaginable pain!"),
+		span_userdanger("IT HURTS! IT BURNS!")
+	)
+
+	to_chat(world, span_danger("A war ritual has been completed! Goblin portals begin to tear open across the land!"))
+	playsound(loc, 'sound/magic/bloodrage.ogg', 100, FALSE, -1)
+	var/datum/round_event_control/gobinvade/E = new()
+	E.req_omen = FALSE
+	E.earliest_start = 0
+	E.min_players = 0
+	if(LAZYLEN(GLOB.hauntstart))
+		E.runEvent()
+
+	sleep(2 SECONDS)
+	victim.emote("painscream", forced = TRUE)
+	return TRUE
 
 /datum/outfit/job/roguetown/viciousrite/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -1012,11 +1126,13 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 		H.dropItemToGround(I, TRUE)
 	H.drop_all_held_items()
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/fluted/graggar
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/graggar
 	pants = /obj/item/clothing/under/roguetown/platelegs/graggar
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/graggar
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/graggar
 	gloves = /obj/item/clothing/gloves/roguetown/plate/graggar
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/graggar
-	neck = /obj/item/clothing/neck/roguetown/gorget/steel
+	neck = /obj/item/clothing/neck/roguetown/gorget/steel/graggar
 	cloak = /obj/item/clothing/cloak/graggar
 	r_hand = /obj/item/rogueweapon/greataxe/steel/doublehead/graggar
 
@@ -1024,3 +1140,41 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 	name = "Rune of Desire"
 	desc = "A Holy Rune of Baotha. Relief for the broken hearted."
 	icon_state = "baotha_chalky" // mortosasye
+	var/baotharites = list("Rite of Joy")
+
+/obj/structure/ritualcircle/baotha/attack_hand(mob/living/user)
+	if((user.patron?.type) != /datum/patron/inhumen/baotha)
+		to_chat(user,span_smallred("I don't know the proper rites for this..."))
+		return
+	if(!HAS_TRAIT(user, TRAIT_RITUALIST))
+		to_chat(user,span_smallred("I don't know the proper rites for this..."))
+		return
+	var/riteselection = input(user, "Rituals of Bliss", src) as null|anything in baotharites
+	switch(riteselection) // put ur rite selection here
+		if("Rite of Joy")
+			if(HAS_TRAIT(user, TRAIT_RITES_BLOCKED))
+				to_chat(user,span_smallred("I have performed enough rituals for the day... I must rest before communing more."))
+				return
+			var/onrune = view(1, loc)
+			var/list/folksonrune = list()
+			for(var/mob/living/carbon/human/persononrune in onrune)
+				if(HAS_TRAIT(persononrune, TRAIT_DEPRAVED))
+					folksonrune += persononrune
+			var/target = input(user, "Choose a host") as null|anything in folksonrune
+			if(!target)
+				return
+			if(do_after(user, 50))
+				user.say("Let the wine flow, let the music crash!")
+				if(do_after(user, 50))
+					user.say("Away with tears, away with shame!")
+					to_chat(user, span_notice("The memory of sorrow fades into a haze of bliss."))
+					if(do_after(user, 50))
+						user.say("Grant me the bliss, grant me the rush!")
+						if(do_after(user, 50))
+							icon_state = "baotha_active"
+							user.say("Baotha, fill my cup with endless mirth!")
+							playsound(loc, 'sound/misc/evilevent.ogg', 100, FALSE, -1)
+							user.apply_status_effect(/datum/status_effect/joybringer)
+							user.apply_status_effect(/datum/status_effect/debuff/ritesexpended_high)
+							spawn(120)
+								icon_state = "baotha_chalky" 

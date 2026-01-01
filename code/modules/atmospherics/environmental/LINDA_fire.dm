@@ -235,3 +235,27 @@
 	return ..()
 
 #undef INSUFFICIENT
+
+/// For use with demonic T5 ability
+/obj/effect/hotspot/vampiric
+	life = 6
+	firelevel = 3
+	color = COLOR_LIME
+	light_color = COLOR_LIME
+	var/datum/clan/owner_clan
+
+/obj/effect/hotspot/vampiric/Initialize(mapload, starting_volume, starting_temperature, datum/clan/owner_clan)
+	if(!istype(owner_clan))
+		return INITIALIZE_HINT_QDEL
+	src.owner_clan = owner_clan
+	. = ..()
+
+/obj/effect/hotspot/vampiric/Destroy()
+	owner_clan = null
+	return ..()
+
+/obj/effect/hotspot/vampiric/try_fire_act(mob/living/carbon/human/target, added, maxstacks)
+	if(istype(target) && target.clan == owner_clan)
+		return
+
+	return ..()

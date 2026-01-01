@@ -352,3 +352,10 @@
 /obj/item/book/granter/spell_points/voiddragon
 	name = "Arcyne Void Insight"
 	spellpoints = 6
+
+/obj/item/book/granter/spell/blackstone/mirror_transform
+	name = "Scroll of Mirror Transform"
+	spell = /obj/effect/proc_holder/spell/invoked/mirror_transform
+	spellname = "Mirror Transform"
+	icon_state ="scrolldarkred"
+	remarks = list("Aspectum rebis adopta..", "Fac me novum..", "Pulcher ero..")

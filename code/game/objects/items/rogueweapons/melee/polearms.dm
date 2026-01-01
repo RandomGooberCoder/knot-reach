@@ -119,6 +119,7 @@
 	animname = "cut"
 	blade_class = BCLASS_CHOP
 	reach = 1
+	swingdelay = 15
 	penfactor = -100 // hard set to not penetrate armor as its original design intended
 	damfactor = 2.5
 	clickcd = CLICK_CD_CHARGED
@@ -126,12 +127,13 @@
 	hitsound = list('sound/combat/hits/bladed/genslash (1).ogg', 'sound/combat/hits/bladed/genslash (2).ogg', 'sound/combat/hits/bladed/genslash (3).ogg')
 	item_d_type = "slash"
 	misscost = 10
-	intent_intdamage_factor = 0.25
+	intent_intdamage_factor = 0.5
 
 /datum/intent/rend/reach
 	name = "long rend"
 	penfactor = -100
 	misscost = 5
+	swingdelay = 15
 	clickcd = CLICK_CD_HEAVY
 	damfactor = 2
 	reach = 2
@@ -156,11 +158,11 @@
 	blade_class = BCLASS_PEEL
 	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
 	clickcd = CLICK_CD_CHARGED
-	penfactor = 200
+	penfactor = BLUNT_DEFAULT_PENFACTOR
 	swingdelay = 5
 	damfactor = 0.05
 	item_d_type = "slash"
-	peel_divisor = 4
+	peel_divisor = 5
 	reach = 2
 
 
@@ -242,15 +244,37 @@
 	force = 25
 	force_wielded = 28
 	icon_state = "aries"
-	icon = 'icons/roguetown/weapons/misc32.dmi'
-	pixel_y = 0
-	pixel_x = 0
+	icon = 'icons/roguetown/weapons/polearms64.dmi'
+	pixel_y = -16
+	pixel_x = -16
 	inhand_x_dimension = 64
 	inhand_y_dimension = 64
-	bigboy = FALSE
-	gripsprite = FALSE
-	gripped_intents = null
+	bigboy = TRUE
+	gripsprite = TRUE
+	gripped_intents = list(/datum/intent/spear/bash/ranged, /datum/intent/mace/smash/wood)
 	cast_time_reduction = 0.4
+
+/obj/item/rogueweapon/woodstaff/aries/pickup(mob/living/user)
+	..()
+	if(HAS_TRAIT(user, TRAIT_ROTMAN) || user.mob_biotypes & MOB_UNDEAD)
+		to_chat(user, "<font color='yellow'>FOOL! YOU DARE TOUCH THE HOLY STAFF?</font>\n<font color = 'red'>[src] starts to heat up... Uh oh.</font>")
+		addtimer(CALLBACK(src, PROC_REF(smite), user, 1 SECONDS, 2 SECONDS, 25, 5, "SO BE IT!"), 3 SECONDS)
+		return
+	var/datum/job/J = SSjob.GetJob(user.mind?.assigned_role)
+	if(J.title != "Priest" && J.title != "Martyr")
+		to_chat(user, "<font color='yellow'>UNWORTHY HANDS TOUCH THE HOLY STAFF, CEASE OR BE PUNISHED.</font>")
+		addtimer(CALLBACK(src, PROC_REF(smite), user, 1 SECONDS, 1 SECONDS, 0, 5, "FOOL, YOU DID NOT HEED MY WARNING!"), 5 SECONDS)
+
+/obj/item/rogueweapon/woodstaff/aries/proc/smite(mob/living/user, knockdown = 1 SECONDS, paralyze = 1 SECONDS, fireloss = 0, fire_stacks = 5, msg = "")
+	if(loc == user)
+		to_chat(user, "<font color='yellow'>[msg]</font>")
+		user.doUnEquip(src, TRUE, get_turf(user), silent = TRUE) // Forcibly unequips it.
+		user.Knockdown(knockdown)
+		user.Paralyze(paralyze)
+		user.adjustFireLoss(fireloss)
+		user.adjust_fire_stacks(fire_stacks)
+		user.emote("agony", forced = TRUE)
+		user.ignite_mob()
 
 /obj/item/rogueweapon/woodstaff/aries/getonmobprop(tag)
 	. = ..()
@@ -561,6 +585,8 @@
 									new A(user.loc)
 									to_chat(user, "<span class='warning'>Pull 'em in!</span>")
 									user.mind.add_sleep_experience(/datum/skill/labor/fishing, round(fisherman.STAINT, 2), FALSE) // Level up!
+									record_featured_stat(FEATURED_STATS_FISHERS, fisherman)
+									record_round_statistic(STATS_FISH_CAUGHT)
 									playsound(src.loc, 'sound/items/Fish_out.ogg', 100, TRUE)
 							else
 								to_chat(user, "<span class='warning'>Damn, it got away... I should <b>pull away</b> next time.</span>")
@@ -581,6 +607,8 @@
 									new A(user.loc)
 									to_chat(user, "<span class='warning'>Pull 'em in!</span>")
 									user.mind.add_sleep_experience(/datum/skill/labor/fishing, round(fisherman.STAINT, 2), FALSE) // Level up!
+									record_featured_stat(FEATURED_STATS_FISHERS, fisherman)
+									record_round_statistic(STATS_FISH_CAUGHT)
 									playsound(src.loc, 'sound/items/Fish_out.ogg', 100, TRUE)
 							else
 								to_chat(user, "<span class='warning'>Damn, it got away... I should <b>pull away</b> next time.</span>")
@@ -601,6 +629,8 @@
 									new A(user.loc)
 									to_chat(user, "<span class='warning'>Pull 'em in!</span>")
 									user.mind.add_sleep_experience(/datum/skill/labor/fishing, round(fisherman.STAINT, 2), FALSE) // Level up!
+									record_featured_stat(FEATURED_STATS_FISHERS, fisherman)
+									record_round_statistic(STATS_FISH_CAUGHT)
 									playsound(src.loc, 'sound/items/Fish_out.ogg', 100, TRUE)
 							else
 								to_chat(user, "<span class='warning'>Damn, it got away... I should <b>pull away</b> next time.</span>")
@@ -769,7 +799,7 @@
 		added_def = 2,\
 	)
 
-/obj/item/rogueweapon/halberd/psyhalberd	
+/obj/item/rogueweapon/halberd/psyhalberd
 	name = "psydonian halberd"
 	desc = "A reliable design that has served humenkind to fell the enemy and defend Psydon's flock - now fitted with a lengthier blade and twin, silver-tipped beaks."
 	icon_state = "silverhalberd"
@@ -1378,15 +1408,15 @@
 			if("wielded")
 				return list("shrink" = 0.6,"sx" = 4,"sy" = -2,"nx" = -3,"ny" = -2,"wx" = -5,"wy" = -1,"ex" = 3,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 7,"sturn" = -7,"wturn" = 16,"eturn" = -22,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
 
-/obj/item/rogueweapon/halberd/capglaive
+/obj/item/rogueweapon/halberd/championglaive
 	possible_item_intents = list(/datum/intent/spear/thrust/eaglebeak, SPEAR_BASH)
 	gripped_intents = list(/datum/intent/spear/thrust/glaive, /datum/intent/spear/cut/glaive, /datum/intent/axe/chop/scythe, SPEAR_BASH)
 	name = "'Deliverer'"
-	desc = "As if glaives werent hard enough to produce, this one in particular is made out of blacksteel. A piece of art made for the captain of the guard, its a tool to deliver justice and help those weaker than the wielder."
+	desc = "As if glaives werent hard enough to produce, this one in particular is made out of blacksteel. A piece of art made for the realm's champion, its a tool to deliver valor and protect those weaker than the wielder."
 	force = 17
 	force_wielded = 35
 	icon = 'icons/roguetown/weapons/polearms64.dmi'
-	icon_state = "capglaive"
+	icon_state = "champglaive"
 	anvilrepair = /datum/skill/craft/weaponsmithing
 	smeltresult = /obj/item/ingot/blacksteel
 	max_integrity = 290 //blacksteel, so its gotta be more durable
@@ -1402,3 +1432,53 @@
 				return list("shrink" = 0.6,"sx" = -7,"sy" = 2,"nx" = 7,"ny" = 3,"wx" = -2,"wy" = 1,"ex" = 1,"ey" = 1,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -38,"sturn" = 37,"wturn" = 30,"eturn" = -30,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
 			if("wielded")
 				return list("shrink" = 0.6,"sx" = 5,"sy" = -3,"nx" = -5,"ny" = -2,"wx" = -5,"wy" = -1,"ex" = 3,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 7,"sturn" = -7,"wturn" = 16,"eturn" = -22,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
+
+
+/obj/item/rogueweapon/greatsword/zwei/ogre
+	name = "Better Sword"
+	desc = "The mind of an ogre does not see trash in a field of discarded swords and corpses. He sees material to make a new weapon, with a light snack.."
+	icon_state = "ogre_sword"
+	minstr = 15 //have you seen the size of this thing??
+	item_flags = GIANT_WEAPON
+	smelt_bar_num = 2
+	force = 20
+	force_wielded = 35
+	max_blade_int = 250
+	max_integrity = 260
+
+/obj/item/rogueweapon/mace/goden/steel/ogre
+	name = "Mace of Malum"
+	desc = "Sometimes an ogre comes across an abandoned blacksmith's forge, and finds an intact anvil. Few minds but an ogre's can think to use a tool of pure creation to beat people to paste."
+	icon_state = "ogre_anvil"
+	force = 20
+	force_wielded = 40
+	possible_item_intents = list(/datum/intent/mace/strike/reach)
+	gripped_intents = list(/datum/intent/mace/strike/reach, /datum/intent/mace/smash/reach, /datum/intent/effect/daze)
+	smeltresult = /obj/item/ingot/steel
+	smelt_bar_num = 2
+	minstr = 15
+	item_flags = GIANT_WEAPON
+	force_wielded = 35
+	max_integrity = 260
+
+/obj/item/rogueweapon/mace/goden/steel/ogre/graggar
+	name = "Ogre's Mace"
+	desc = "Only a giant can effectively make use of this weapon. It has fed one at the expense of many lives."
+	icon_state = "ogre_mace"
+	force = 25
+	force_wielded = 45 // i dont even think thisll do much, compare it to the tetsubo
+	gripped_intents = list(/datum/intent/mace/strike/reach, /datum/intent/mace/smash/reach, /datum/intent/effect/daze)
+	smelt_bar_num = 2
+	minstr = 15
+	item_flags = GIANT_WEAPON
+	force_wielded = 35
+	max_blade_int = 250
+	max_integrity = 280
+
+/obj/item/rogueweapon/mace/goden/steel/ogre/graggar/pickup(mob/living/user)
+	if(!HAS_TRAIT(user, TRAIT_HORDE))
+		to_chat(user, "<font color='red'>WEAK HANDS CANNOT TOUCH ME. PUNISHMENT FOR YOU!</font>")
+		user.adjust_fire_stacks(5)
+		user.ignite_mob()
+		user.Stun(40)
+	..()

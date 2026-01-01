@@ -1159,6 +1159,7 @@ SUBSYSTEM_DEF(gamemode)
         STATS_ALIVE_DWARVES,
         STATS_ALIVE_DARK_ELVES,
         STATS_ALIVE_WOOD_ELVES,
+        STATS_ALIVE_SUN_ELVES,
         STATS_ALIVE_HALF_ELVES,
         STATS_ALIVE_HALF_ORCS,
         STATS_ALIVE_GOBLINS,
@@ -1179,6 +1180,7 @@ SUBSYSTEM_DEF(gamemode)
         STATS_ALIVE_MOTHS,
 		STATS_ALIVE_LAMIA,
 		STATS_ALIVE_HARPIES,
+		STATS_ALIVE_OGRES,
 	)
 
 	for(var/stat_name in statistics_to_clear)
@@ -1270,6 +1272,8 @@ SUBSYSTEM_DEF(gamemode)
 				record_round_statistic(STATS_ALIVE_DARK_ELVES)
 			if(iswoodelf(human_mob))
 				record_round_statistic(STATS_ALIVE_WOOD_ELVES)
+			if(issunelf(human_mob))
+				record_round_statistic(STATS_ALIVE_SUN_ELVES)
 			if(ishalfelf(human_mob))
 				record_round_statistic(STATS_ALIVE_HALF_ELVES)
 			if(ishalforc(human_mob))
@@ -1310,6 +1314,8 @@ SUBSYSTEM_DEF(gamemode)
 				record_round_statistic(STATS_ALIVE_LAMIA)
 			if(isharpy(human_mob))
 				record_round_statistic(STATS_ALIVE_HARPIES)
+			if(isogre(human_mob))
+				record_round_statistic(STATS_ALIVE_OGRES)
 
 				record_round_statistic(STATS_ALIVE_MOTHS)
 

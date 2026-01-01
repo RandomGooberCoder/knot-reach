@@ -78,6 +78,7 @@
 	resistance_flags = FLAMMABLE
 	pickup_sound = 'modular_helmsguard/sound/sheath_sounds/draw_polearm.ogg'
 	sheathe_sound = 'sound/items/wood_sharpen.ogg'
+	special = /datum/special_intent/axe_swing
 
 
 /obj/item/rogueweapon/stoneaxe/equipped(mob/user, slot, initial = FALSE)
@@ -210,6 +211,7 @@
 	smeltresult = /obj/item/ingot/iron
 	gripped_intents = list(/datum/intent/axe/cut,/datum/intent/axe/chop, /datum/intent/sword/peel)
 	wdefense = 2
+	item_flags = PEASANT_WEAPON
 
 
 
@@ -241,6 +243,7 @@
 	smeltresult = /obj/item/ingot/steel
 	wlength = WLENGTH_NORMAL
 	toolspeed = 2
+	item_flags = NONE
 
 /obj/item/rogueweapon/stoneaxe/woodcut/wardenpick
 	name = "Wardens' axe"
@@ -253,6 +256,7 @@
 	smeltresult = /obj/item/ingot/steel
 	wlength = WLENGTH_NORMAL
 	toolspeed = 2
+	item_flags = NONE
 
 
 /obj/item/rogueweapon/stoneaxe/handaxe/equipped(mob/user, slot, initial = FALSE)
@@ -378,6 +382,7 @@
 	gripped_intents = null
 	wdefense = 5
 	is_silver = TRUE
+	item_flags = NONE
 	blade_dulling = DULLING_SHAFT_METAL
 
 /obj/item/rogueweapon/stoneaxe/woodcut/silver/ComponentInitialize()
@@ -530,6 +535,25 @@
 		user.Stun(40)
 	..()
 
+
+/obj/item/rogueweapon/greataxe/steel/doublehead/graggar/ogre
+	name = "executioner's folly"
+	desc = "Attempts have been made to cut off an ogre's head. Those who try forget how easily they break their chains, and how thick their necks are."
+	icon_state = "ogre_axe"
+	force = 20
+	force_wielded = 40
+	icon = 'icons/roguetown/weapons/64.dmi'
+	max_blade_int = 200
+	item_flags = GIANT_WEAPON
+
+/obj/item/rogueweapon/greataxe/steel/doublehead/graggar/ogre/pickup(mob/living/user)
+	if(!HAS_TRAIT(user, TRAIT_HORDE))
+		to_chat(user, "<font color='red'>WEAK HANDS CANNOT HANDLE MY STRENGTH. BE PUNISHED.</font>")
+		user.adjust_fire_stacks(5)
+		user.ignite_mob()
+		user.Stun(10)
+	..()
+
 ////////////////////////////////////////
 // Unique loot axes; mostly from mobs //
 ////////////////////////////////////////
@@ -540,7 +564,8 @@
 	icon_state = "minotaurgreataxe"
 	force = 20							//Same as Graggar axe, only cus it's rare enough. Plus has the high strength req and crap starting-shaft.
 	force_wielded = 40
-	minstr = 15							//Boo-womp
+	minstr = 15						//Boo-womp
+	item_flags = GIANT_WEAPON
 	max_blade_int = 175
 
 /obj/item/rogueweapon/stoneaxe/woodcut/troll
@@ -552,4 +577,7 @@
 	max_integrity = 150					//50% less than normal axe
 	max_blade_int = 300
 	minstr = 13							//Heavy, but still good.
+	item_flags = GIANT_WEAPON
 	wdefense = 3						//Slightly better than norm, has 6 defense 2 handing it.
+
+// end mob stuff
