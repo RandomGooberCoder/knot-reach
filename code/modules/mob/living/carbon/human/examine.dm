@@ -1064,6 +1064,8 @@
 				villain_text += span_userdanger("A MONSTER!")
 		if(mind.assigned_role == "Lunatic")
 			villain_text += span_userdanger("LUNATIC!")
+		if(mind.has_antag_datum(/datum/antagonist/pale_plague))
+			villain_text += span_userdanger("A PEST!")
 
 	return villain_text
 

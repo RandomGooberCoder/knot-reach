@@ -108,6 +108,8 @@
 //nodmg if we don't have strongbite
 //nodmg if our teeth can't break through their armour
 	if(!nodmg)
+		SEND_SIGNAL(src, COMSIG_CARBON_ONBITE_DMG, src, user)
+		SEND_SIGNAL(user, COMSIG_CARBON_ONBITE_DMG, src, user)
 		playsound(src, "smallslash", 100, TRUE, -1)
 		if(ishuman(src) && user.mind)
 			var/mob/living/carbon/human/bite_victim = src

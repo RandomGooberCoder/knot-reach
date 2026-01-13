@@ -1282,6 +1282,10 @@ GLOBAL_VAR_INIT(mobids, 1)
 
 ///Adjust the nutrition of a mob
 /mob/proc/adjust_nutrition(change) //Honestly FUCK the oldcoders for putting nutrition on /mob someone else can move it up because holy hell I'd have to fix SO many typechecks
+	var/signaled_change = SEND_SIGNAL(src, COMSIG_MOB_ADJUST_NUTRITION, change)
+	if(signaled_change != FALSE)
+		change = signaled_change
+
 	if(HAS_TRAIT(src, TRAIT_NOHUNGER))
 		nutrition = NUTRITION_LEVEL_FULL
 	nutrition = max(0, nutrition + change)

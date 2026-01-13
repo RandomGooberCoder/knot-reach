@@ -60,6 +60,10 @@
 
 /// Loops through our list of wounds healing them until we run out of healing or all wounds are healed
 /mob/living/proc/heal_wounds(heal_amount, list/specific_types)
+	var/heal_amount_signaled = SEND_SIGNAL(src, COMSIG_MOB_HEAL_WOUNDS, heal_amount, specific_types)
+	if(heal_amount_signaled != FALSE)
+		heal_amount = heal_amount_signaled
+
 	var/healed_any = FALSE
 	if(has_status_effect(/datum/status_effect/buff/fortify))
 		heal_amount *= 1.5

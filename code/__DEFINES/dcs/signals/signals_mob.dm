@@ -40,3 +40,12 @@
 #define COMSIG_MOB_ORGAN_REMOVED "mob_organ_removed"
 
 #define COMSIG_COMBAT_MODE "CMODETOGGLE"
+
+/// From /mob/living/carbon/proc/onbite() (mob/living/carbon/victim, mob/living/carbon/biter) when damag wasn't blocked
+#define COMSIG_CARBON_ONBITE_DMG  "carbon_onbite_with_dmg"
+
+/// From /mob/proc/adjust_nutrition() (mob/source, change)
+#define COMSIG_MOB_ADJUST_NUTRITION "mob_adjust_nutrition"
+
+/// From /mob/living/proc/heal_wounds() (mob/living/source, heal_amount, list/specific_types)
+#define COMSIG_MOB_HEAL_WOUNDS "mob_heal_wounds"
