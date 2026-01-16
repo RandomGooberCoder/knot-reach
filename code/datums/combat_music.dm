@@ -136,7 +136,7 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 	musicpath = list('sound/music/combat.ogg')
 
 /datum/combat_music/combat_old
-	name = "Combat Old (Town Elder)"
+	name = "Combat Old (Bailiff)"
 	desc = "Making mistakes is lyfe, watching them being made, is torture."
 	shortname = "Combt Old"
 	musicpath = list('sound/music/combat_old.ogg')

@@ -1,5 +1,5 @@
 /datum/job/roguetown/elder
-	title = "Town Elder"
+	title = "Bailiff"
 	flag = ELDER
 	department_flag = YEOMEN
 	faction = "Station"
@@ -26,7 +26,7 @@
 	cmode_music = 'sound/music/combat_old.ogg'//He is old so he gets old
 
 /datum/outfit/job/elder
-	name = "Town Elder"
+	name = "Bailiff"
 	jobtype = /datum/job/roguetown/elder
 
 /datum/outfit/job/elder/pre_equip(mob/living/carbon/human/H)

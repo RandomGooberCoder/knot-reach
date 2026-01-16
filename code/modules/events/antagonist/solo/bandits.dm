@@ -29,7 +29,7 @@
 		"Hand",
 		"Steward",
 		"Court Physician",
-		"Town Elder",
+		"Bailiff",
 		"Captain",
 		"Loudmouth",
 		"Knight",

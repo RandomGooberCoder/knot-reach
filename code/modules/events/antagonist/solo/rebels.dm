@@ -42,7 +42,7 @@
 		"Magos Thrall",
 		"Servant",
 		"Court Physician",
-		"Town Elder",
+		"Bailiff",
 		"Captain",
 		"Loudmouth",
 		"Knight",
