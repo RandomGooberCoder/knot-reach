@@ -140,6 +140,7 @@
 #define MERCHANT	(1<<8)
 #define SCRIBE		(1<<9)
 #define ELDER		(1<<10)
+#define WATCHMAN	(1<<11)
 
 #define PEASANTS	(1<<5)
 

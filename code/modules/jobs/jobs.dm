@@ -79,7 +79,6 @@ GLOBAL_LIST_INIT(courtier_positions, list(
 ))
 
 GLOBAL_LIST_INIT(garrison_positions, list(
-	"Watchman",
 	"Warden",
 	"Sergeant",
 	"Gatemaster",
@@ -115,7 +114,8 @@ GLOBAL_LIST_INIT(yeoman_positions, list(
 	"Bathmaster",
 	"Guildmaster",
 	"Guildsman",
-	"Tailor"
+	"Tailor",
+	"Watchman",
 ))
 
 GLOBAL_LIST_INIT(peasant_positions, list(
