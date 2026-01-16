@@ -7,8 +7,8 @@
 	faction = "Station"
 	selection_color = JCOLOR_SOLDIER
 
-	total_positions = 8
-	spawn_positions = 8
+	total_positions = 6
+	spawn_positions = 6
 
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS // same as town guard
