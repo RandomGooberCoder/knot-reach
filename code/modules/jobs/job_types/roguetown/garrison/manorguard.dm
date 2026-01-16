@@ -1,11 +1,15 @@
 /datum/job/roguetown/manorguard
 	title = "Man at Arms"
 	f_title = "Woman at Arms"
+
 	flag = MANATARMS
 	department_flag = GARRISON
 	faction = "Station"
-	total_positions = 8
-	spawn_positions = 8
+	selection_color = JCOLOR_SOLDIER
+
+	total_positions = 4
+	spawn_positions = 4
+
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_FEARED_UP
 	disallowed_races = list(
@@ -13,25 +17,28 @@
 	)
 	allowed_patrons = ALL_PATRONS
 	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED)
-	tutorial = "Having proven yourself loyal and capable, you are entrusted to defend the town and enforce its laws. \
-				Trained regularly in combat and siege warfare, you deal with threats - both within and without. \
-				Obey your Sergeant-at-Arms, the Marshal, and the Crown. Show the nobles and knights your respect, so that you may earn it in turn. Not as a commoner, but as a soldier.."
-	display_order = JDO_CASTLEGUARD
-	whitelist_req = TRUE
-	outfit = /datum/outfit/job/manorguard
-	advclass_cat_rolls = list(CTAG_MENATARMS = 20)
-	give_bank_account = 22
-	min_pq = 3
-	max_pq = null
-	round_contrib_points = 2
-	cmode_music = 'sound/music/combat_ManAtArms.ogg'
-	social_rank = SOCIAL_RANK_YEOMAN
-
 	virtue_restrictions = list(
 		/datum/virtue/utility/blacksmith, // we don't want you repairing your stuff in combat, sorry...
 	)
-	job_traits = list(TRAIT_GUARDSMAN, TRAIT_STEELHEARTED)
 
+	tutorial = "Having proven yourself loyal and capable, you are entrusted to defend the town and enforce its laws. \
+				Trained regularly in combat and siege warfare, you deal with threats - both within and without. \
+				Obey your Sergeant-at-Arms, the Marshal, and the Crown. Show the nobles and knights your respect, so that you may earn it in turn. Not as a commoner, but as a soldier.."
+
+	display_order = JDO_CASTLEGUARD
+
+	outfit = /datum/outfit/job/manorguard
+	advclass_cat_rolls = list(CTAG_MENATARMS = 20)
+	give_bank_account = 22
+
+	min_pq = 3
+	max_pq = null
+	round_contrib_points = 2
+
+	cmode_music = 'sound/music/combat_ManAtArms.ogg'
+	social_rank = SOCIAL_RANK_YEOMAN
+
+	job_traits = list(TRAIT_GUARDSMAN, TRAIT_STEELHEARTED)
 	job_subclasses = list(
 		/datum/advclass/manorguard/footsman,
 		/datum/advclass/manorguard/skirmisher,
