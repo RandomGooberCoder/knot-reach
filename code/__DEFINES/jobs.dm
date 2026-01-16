@@ -101,7 +101,7 @@
 #define LADY		(1<<1)
 #define HAND		(1<<2)
 #define STEWARD		(1<<3)
-#define KNIGHT		(1<<4)
+#define DUCAL_GUARD	(1<<4)
 #define MARSHAL		(1<<5)
 #define SUITOR		(1<<6)
 
@@ -129,7 +129,7 @@
 #define WIZARD		(1<<1)
 #define PHYSICIAN 	(1<<2)
 #define BUTLER		(1<<3)
-#define COUNCILLOR	(1<<4)
+#define NOBLE		(1<<4)
 
 #define YEOMEN		(1<<4)
 

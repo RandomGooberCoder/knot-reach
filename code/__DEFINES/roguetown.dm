@@ -546,6 +546,7 @@ GLOBAL_LIST_EMPTY(round_join_times)
 #define CTAG_PRISONER "CAT_PRISONER"
 #define CTAG_HOSTAGE "CAT_HOSTAGE"
 #define CTAG_OGRE			"CAT_OGRE"					// ogre classes - handles ogre class selector
+#define CTAT_LESSER_NOBLE	"CAT_LESSERNOBLE"
 
 #define CTAG_HFT_LORD "CAT_HFT_LORD"  // Heartfelt Lord Class - Handles Heartfelt Lord class selector.
 #define CTAG_HFT_HAND "CAT_HFT_HAND"  // Heartfelt Hand Class - Handles Heartfelt Hand class selector.
@@ -563,7 +564,6 @@ GLOBAL_LIST_EMPTY(round_join_times)
 
 #define CTAG_STEWARD		"CAT_STEWARD"
 #define CTAG_CLERK			"CAT_CLERK"
-#define CTAG_COUNCILLOR		"CAT_COUNCIL"
 
 #define CTAG_COURTMAGE		"CAT_COURTMAGE"
 

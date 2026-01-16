@@ -904,7 +904,7 @@
 	keylock = TRUE
 	grant_resident_key = TRUE
 	resident_key_type = /obj/item/roguekey/knight
-	resident_role = /datum/job/roguetown/knight
+	resident_role = /datum/job/roguetown/ducalguard
 	lockid = null //Will be randomized
 
 /obj/structure/mineral_door/wood/deadbolt
